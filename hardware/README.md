@@ -28,7 +28,7 @@ Each component of the boost stations are made of sub-components:
      * uFL antenna adapter
      * WiFi
    * LoRa
-     * RFM95 Breakout Board
+     * Feather M0 RFM95
      * uFL SMD antenna connector
      * uFL antenna adapter
      * LoRa antenna
@@ -36,3 +36,9 @@ Each component of the boost stations are made of sub-components:
      * case lid
      * case base
      * attachment hardware
+
+## Communication Scheme
+
+The basic Fair Talk communication scheme is:
+
+cell phone --> ESP8266 --> LoRa --> LoRa --> ESP8266 --> cell phone
