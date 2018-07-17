@@ -2,6 +2,10 @@
 ## url: https://lab.whitequark.org/notes/2016-10-20/controlling-a-gpio-through-an-esp8266-based-web-server/
 
 
+## To add serial RX and TX writing to the LoRa in Circuit Python use bitbangio library from Adafruit
+# http://circuitpython.readthedocs.io/en/latest/shared-bindings/bitbangio/I2C.html
+
+
 # Begin configuration
 TITLE    = "Air conditioner"
 GPIO_NUM = 5
