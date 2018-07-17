@@ -171,3 +171,7 @@ fabric.properties
 *.DS_store
 .cpython-36.pyc
 
+# mkdocs
+docs/docs/site
+docs/docs/site/
+
