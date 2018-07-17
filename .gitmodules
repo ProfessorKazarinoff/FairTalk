@@ -1,0 +1,6 @@
+[submodule "hardware/LoRa/Adafruit_CircuitPython_RFM9x"]
+	path = hardware/LoRa/Adafruit_CircuitPython_RFM9x
+	url = git@github.com:adafruit/Adafruit_CircuitPython_RFM9x.git
+[submodule "hardware/LoRa/adafruit_bus_device"]
+	path = hardware/LoRa/adafruit_bus_device
+	url = git@github.com:adafruit/Adafruit_CircuitPython_BusDevice.git
