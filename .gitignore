@@ -162,3 +162,12 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+*.ipynb_checkpoints
+.DS_store
+*.DS_store
+.cpython-36.pyc
+
