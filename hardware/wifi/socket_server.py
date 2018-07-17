@@ -5,49 +5,43 @@
 ## To add serial RX and TX writing to the LoRa in Circuit Python use bitbangio library from Adafruit
 # http://circuitpython.readthedocs.io/en/latest/shared-bindings/bitbangio/I2C.html
 
+from ENV import SSID, PWD
 
 # Begin configuration
-TITLE    = "Air conditioner"
-GPIO_NUM = 5
-STA_SSID = "[redacted]"
-STA_PSK  = "[redacted]"
+TITLE = "Air conditioner"
+GPIO_NUM = 0
+STA_SSID = SSID
+STA_PSK = PWD
 # End configuration
 
 import network
 import machine
-import usocket
+import socket
 
-ap_if = network.WLAN(network.AP_IF)
-if ap_if.active(): ap_if.active(False)
-sta_if = network.WLAN(network.STA_IF)
-if not ap_if.active(): sta_if.active(True)
-if not sta_if.isconnected(): sta_if.connect(STA_SSID, STA_PSK)
-
-pin = machine.Pin(GPIO_NUM)
-pin.init(pin.OUT)
-pin.low()
 
 def ok(socket, query):
     socket.write("HTTP/1.1 OK\r\n\r\n")
-    socket.write("<!DOCTYPE html><title>"+TITLE+"</title><body>")
-    socket.write(TITLE+" status: ")
+    socket.write("<!DOCTYPE html><title>" + TITLE + "</title><body>")
+    socket.write(TITLE + " status: ")
     if pin.value():
         socket.write("<span style='color:green'>ON</span>")
     else:
         socket.write("<span style='color:red'>OFF</span>")
     socket.write("<br>")
     if pin.value():
-        socket.write("<form method='POST' action='/off?"+query.decode()+"'>"+
-                     "<input type='submit' value='turn OFF'>"+
+        socket.write("<form method='POST' action='/off?" + query.decode() + "'>" +
+                     "<input type='submit' value='turn OFF'>" +
                      "</form>")
     else:
-        socket.write("<form method='POST' action='/on?"+query.decode()+"'>"+
-                     "<input type='submit' value='turn ON'>"+
+        socket.write("<form method='POST' action='/on?" + query.decode() + "'>" +
+                     "<input type='submit' value='turn ON'>" +
                      "</form>")
 
+
 def err(socket, code, message):
-    socket.write("HTTP/1.1 "+code+" "+message+"\r\n\r\n")
-    socket.write("<h1>"+message+"</h1>")
+    socket.write("HTTP/1.1 " + code + " " + message + "\r\n\r\n")
+    socket.write("<h1>" + message + "</h1>")
+
 
 def handle(socket):
     (method, url, version) = socket.readline().split(b" ")
@@ -81,14 +75,53 @@ def handle(socket):
     else:
         err(socket, "501", "Not Implemented")
 
-server = usocket.socket()
-server.bind(('0.0.0.0', 80))
-server.listen(1)
-while True:
-    try:
-        (socket, sockaddr) = server.accept()
-        handle(socket)
-    except:
-        socket.write("HTTP/1.1 500 Internal Server Error\r\n\r\n")
-        socket.write("<h1>Internal Server Error</h1>")
-    socket.close()
+
+def main():
+    from ENV import SSID, PWD
+    STA_SSID = SSID
+    STA_PSK = PWD
+    ap_if = network.WLAN(network.AP_IF)
+    if ap_if.active(): ap_if.active(False)
+    sta_if = network.WLAN(network.STA_IF)
+    if not ap_if.active(): sta_if.active(True)
+    if not sta_if.isconnected(): sta_if.connect(STA_SSID, STA_PSK)
+
+
+
+    import machine
+    pins = [machine.Pin(i, machine.Pin.IN) for i in (0, 2, 4, 5, 12, 13, 14, 15)]
+
+    html = """<!DOCTYPE html>
+    <html>
+        <head> <title>ESP8266 Pins</title> </head>
+        <body> <h1>ESP8266 Pins</h1>
+            <table border="1"> <tr><th>Pin</th><th>Value</th></tr> %s </table>
+        </body>
+    </html>
+    """
+
+    import socket
+    addr = socket.getaddrinfo('0.0.0.0', 5000)[0][-1]
+
+    s = socket.socket()
+    s.bind(addr)
+    s.listen(1)
+
+    print('listening on', addr)
+
+    while True:
+        cl, addr = s.accept()
+        print('client connected from', addr)
+        cl_file = cl.makefile('rwb', 0)
+        while True:
+            line = cl_file.readline()
+            if not line or line == b'\r\n':
+                break
+        rows = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]
+        response = html % '\n'.join(rows)
+        cl.send(response)
+        cl.close()
+
+
+if __name__ == "__main__":
+    main()

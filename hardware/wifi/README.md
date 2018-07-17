@@ -2,13 +2,13 @@
 
 ## Load Micropython onto ESP8266
 
-## Test Micropython REPL
+## Test Micropython REPL, turn on/off ESP8266 LED
 
 on Linux:
 
 ```
 $ screen /dev/ttyUSB0 115200
-#[ENTER or ctrl-D]
+#[ENTER or ctrl-d or ctrl-c]
 
 >>>import sys
 >>> sys.version
@@ -49,19 +49,24 @@ $ ampy -p /dev/ttyUSB0 ls
 boot.py
 main.py
 
-# upload main.py, run.py and set_led_http_server.py onto the board
+# upload main.py, run.py and simple_server.py onto the board
 $ ampy -p /dev/ttyUSB0 put main.py
 $ ampy -p /dev/ttyUSB0 put run.py
-$ ampy -p /dev/ttyUSB0 put set_led_http_server.py
+$ ampy -p /dev/ttyUSB0 put wifitools.py
+$ ampy -p /dev/ttyUSB0 put ENV.py
+$ ampy -p /dev/ttyUSB0 put simple_server.py
 $ ampy -p /dev/ttyUSB0 ls
 boot.py
+ENV.py
 main.py
 run.py
-set_led_http_server.py
+simple_server.py
+wifitools.py
 ```
 
 Unplug ESP8266 and replug back in. Navigate browser to:
 
-> http://192.168.4.1/
+> the IP address of the ESP8266
 
+the above still needs work
 
