@@ -162,7 +162,7 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
-
+http://192.168.4.1/
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -174,4 +174,8 @@ fabric.properties
 # mkdocs
 docs/docs/site
 docs/docs/site/
+
+# wifi SSID's and Passwords
+
+hardware/wifi/ENV.py
 
