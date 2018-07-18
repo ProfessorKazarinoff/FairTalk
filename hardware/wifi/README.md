@@ -70,3 +70,11 @@ Unplug ESP8266 and replug back in. Navigate browser to:
 
 the above still needs work
 
+## To set ESP8266 as wireless access point
+
+```
+>>> ap = network.WLAN(network.AP_IF)
+>>> ap.active(True)
+```
+
+eventually use ap_if.ifconfig() to write IP address to console
