@@ -75,6 +75,19 @@ the above still needs work
 ```
 >>> ap = network.WLAN(network.AP_IF)
 >>> ap.active(True)
+>>> ap.ifconfig()
+## prints IP address as the first entry of the resulting tuple
 ```
 
-eventually use ap_if.ifconfig() to write IP address to console
+## Once acting as an access point, note IP address and run the main function in socket_server.py
+
+```
+>>> import socket_server
+>>> socket_server.main()
+```
+
+Use a laptop to log onto the ESP's WiFi network (will be called MicroPython...). 
+
+Go to the IP address that was listed in ```ifconfig()```
+
+

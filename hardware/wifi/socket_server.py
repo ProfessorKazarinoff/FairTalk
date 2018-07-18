@@ -77,15 +77,14 @@ def handle(socket):
 
 
 def main():
-    from ENV import SSID, PWD
-    STA_SSID = SSID
-    STA_PSK = PWD
-    ap_if = network.WLAN(network.AP_IF)
-    if ap_if.active(): ap_if.active(False)
-    sta_if = network.WLAN(network.STA_IF)
-    if not ap_if.active(): sta_if.active(True)
-    if not sta_if.isconnected(): sta_if.connect(STA_SSID, STA_PSK)
-
+   # from ENV import SSID, PWD
+   # STA_SSID = SSID
+   # STA_PSK = PWD
+   # ap_if = network.WLAN(network.AP_IF)
+   # if ap_if.active(): ap_if.active(False)
+   # sta_if = network.WLAN(network.STA_IF)
+   # if not ap_if.active(): sta_if.active(True)
+   # if not sta_if.isconnected(): sta_if.connect(STA_SSID, STA_PSK)
 
 
     import machine
@@ -95,13 +94,13 @@ def main():
     <html>
         <head> <title>ESP8266 Pins</title> </head>
         <body> <h1>ESP8266 Pins</h1>
-            <table border="1"> <tr><th>Pin</th><th>Value</th></tr> %s </table>
+            <table border="1"> <tr><th>Pin</th><th>Value</th></tr> 450 </table>
         </body>
     </html>
     """
 
     import socket
-    addr = socket.getaddrinfo('0.0.0.0', 5000)[0][-1]
+    addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
 
     s = socket.socket()
     s.bind(addr)
@@ -112,13 +111,7 @@ def main():
     while True:
         cl, addr = s.accept()
         print('client connected from', addr)
-        cl_file = cl.makefile('rwb', 0)
-        while True:
-            line = cl_file.readline()
-            if not line or line == b'\r\n':
-                break
-        rows = ['<tr><td>%s</td><td>%d</td></tr>' % (str(p), p.value()) for p in pins]
-        response = html % '\n'.join(rows)
+        response = html
         cl.send(response)
         cl.close()
 
