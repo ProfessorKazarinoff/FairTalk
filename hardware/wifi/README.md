@@ -20,7 +20,7 @@ $ screen /dev/ttyUSB0 115200
 >>> import machine
 >>> pin = machine.Pin(0, machine.Pin.OUT)
 # LED ON
->>> pin.value(1)
+/help'>>> pin.value(1)
 # LED OFF
 >>> pin.off()
 >>> # LED ON
@@ -100,6 +100,7 @@ Go to the IP address that was listed in ```ifconfig()```, which is probably:
 Try a couple routes
 
 > 192.168.4.1/help
+
 > 192. 168.4.1/json
 
 
