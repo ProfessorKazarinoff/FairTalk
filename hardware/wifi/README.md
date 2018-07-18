@@ -67,27 +67,41 @@ wifitools.py
 Unplug ESP8266 and replug back in. Navigate browser to:
 
 > the IP address of the ESP8266
+## Upload noggin microweb framework to the ESP82266 (https://github.com/larsks/micropython-noggin)
 
-the above still needs work
+clone the repo and move into the repo directory. Copy the noggin folder and it's contents onto the ESP8266
 
-## To set ESP8266 as wireless access point
+```
+$ ampy -p /dev/ttyUSB0 -b 115200 put noggin
+# copy the demo script from examples/demo.py to the main ESP8266 directory
+$ ampy -p /dev/ttyUSB0 -b 115200 put examples/demo.py demo.py
+# list the files
+$ ampy -p /dev/ttyUSB0 -b 115200 ls
+```
+
+## To set ESP8266 as wireless access point and run noggin server
 
 ```
 >>> ap = network.WLAN(network.AP_IF)
 >>> ap.active(True)
 >>> ap.ifconfig()
 ## prints IP address as the first entry of the resulting tuple
+>>> import demo
+>>> demo.app.serve()
 ```
 
-## Once acting as an access point, note IP address and run the main function in socket_server.py
-
-```
->>> import socket_server
->>> socket_server.main()
-```
 
 Use a laptop to log onto the ESP's WiFi network (will be called MicroPython...). 
 
-Go to the IP address that was listed in ```ifconfig()```
+Go to the IP address that was listed in ```ifconfig()```, which is probably:
+
+> 192.168.4.1
+
+Try a couple routes
+
+> 192.168.4.1/help
+> 192. 168.4.1/json
+
+
 
 
